@@ -6,13 +6,13 @@ Thanks goes to [cweiske](https://github.com/cweiske/noxon-api) for providing the
 
 ## Quickstart
 
-Just run following command (replace `<ip>` with the ipv4 of **your machine**)
+Just run following command (set for `HOST_IP` the **ipv4 of your machine**)
 
 ```bash
-$ chmod 555 docker/presets.json && sudo HOST_IP=<ip> docker-compose -f docker/docker-compose.yaml up
+$ chmod 666 docker/presets.json && sudo HOST_IP=192.168.0.50 docker-compose -f docker/docker-compose.yaml up
 ```
 
-Now you have to point the iRadio to your noxon-server. This is done by enabling the **static ip configuration** on the iRadio and setting **your machines ipv4** as the **primary** DNS like so (keep for the secondary DNS the default `0.0.0.0`):
+Now you have to point the iRadio to your noxon-server. This is done by enabling the **static ip configuration** on the iRadio and providing **your machines ipv4** as the **primary** DNS like so (keep for the secondary DNS the default `0.0.0.0`):
 
 <img src="https://user-images.githubusercontent.com/18425553/189549696-fa4c5c63-8860-4596-b7c8-a403240b97be.png"  width="300">
 
