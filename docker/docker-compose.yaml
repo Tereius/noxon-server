@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  noxon-server:
+    image: noxon-server
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "80:80/tcp"
+      - "53:53/udp"
+    environment:
+      - DNS_ENABLED=true
+      - DNS_HOST_IP=${HOST_IP}
+    volumes:
+      - type: bind
+        source: stations.json
+        target: /noxon/stations.json
+      - type: bind
+        source: presets.json
+        target: /noxon/presets.json

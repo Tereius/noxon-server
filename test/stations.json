@@ -1,0 +1,17 @@
+[
+  {
+    "dirName": "RootDir",
+    "children": [
+      {
+        "dirName": "DirOne",
+        "children": [
+          {
+            "stationName": "StationOne",
+            "stationDescription": "This is Sation One",
+            "stationUrl": ""
+          }
+        ]
+      }
+    ]
+  }
+]

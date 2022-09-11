@@ -1,0 +1,27 @@
+[
+  {
+    "stationName": "HR info",
+    "stationDescription": "HR info",
+    "stationUrl": "https://dispatcher.rndfnk.com/hr/hrinfo/live/mp3/high"
+  },
+  {
+    "stationName": "HR 2",
+    "stationDescription": "HR 2",
+    "stationUrl": "https://dispatcher.rndfnk.com/hr/hr2/live/mp3/high"
+  },
+  {
+    "stationName": "DLF",
+    "stationDescription": "Deutschlandfunk",
+    "stationUrl": "https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3?aggregator=web"
+  },
+  {
+    "stationName": "BBC World Service",
+    "stationDescription": "BBC World Service",
+    "stationUrl": "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service"
+  },
+  {
+    "stationName": "SWR Aktuell",
+    "stationDescription": "SWR Aktuell",
+    "stationUrl": "https://dispatcher.rndfnk.com/swr/swraktuell/live/mp3/128/stream.mp3"
+  }
+]
