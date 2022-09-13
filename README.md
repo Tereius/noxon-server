@@ -22,7 +22,7 @@ Now if you browse the radio stations you should see those stations configured in
 
 ## Quickstart (compile from source)
 
-Compile the code for your desired [os and architecture](https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63) or download the ready to use binaries from [here](https://github.com/Tereius/noxon-server/releases):
+Compile the code for your desired [os and architecture](https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63) or download the **ready to use binaries** from [here](https://github.com/Tereius/noxon-server/releases):
 
 ```bash
 $ GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o noxon-server cmd/main.go
@@ -36,6 +36,10 @@ $ sudo DNS_ENABLED=true DNS_HOST_IP=192.168.0.50 GIN_MODE=release ./noxon-server
 ```
 
 The configuration of the radio is the same as above
+
+### Raspberry Pi
+
+To compile for Raspberri Pi just use those go Env. vars.: `GOOS=linux GOARCH=arm GOARM=5`
 
 ## How it works
 
