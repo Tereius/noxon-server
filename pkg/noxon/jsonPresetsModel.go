@@ -18,7 +18,7 @@ func NewJsonPresetsModel() JsonPresetsModel {
 	}
 
 	if dat, err := os.ReadFile("presets.json"); err != nil {
-		log.Warnf("Could not read presets file - will create one: %s", err.Error())
+		log.Warnf("Could not read presets file - will create one if needed: %s", err.Error())
 	} else if len(dat) > 0 {
 		if err := json.Unmarshal(dat, &model.presets); err != nil {
 			log.Errorf("Could not unmarshal presets: %s", err.Error())
