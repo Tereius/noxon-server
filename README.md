@@ -20,7 +20,7 @@ Now you have to point the iRadio to your noxon-server. This is done by enabling 
 
 Now if you browse the radio stations you should see those stations configured in `docker/stations.json`. If you save a preset on the radio it gets written to `docker/presets.json`
 
-## Quickstart (compile from source)
+## Quickstart (compile from source/pre-built binaries)
 
 Compile the code for your desired [os and architecture](https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63) or download the **ready to use binaries** from [here](https://github.com/Tereius/noxon-server/releases):
 
