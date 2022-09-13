@@ -39,7 +39,7 @@ The configuration of the radio is the same as above
 
 ### Raspberry Pi
 
-To compile for Raspberri Pi just use those go Env. vars.: `GOOS=linux GOARCH=arm GOARM=5`
+To compile for Raspberry Pi just use those go Env. vars.: `GOOS=linux GOARCH=arm GOARM=5`
 
 ## How it works
 
