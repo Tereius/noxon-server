@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Noxon status</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+	<div class="container-sm">
+		<h2>Active playback</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Started</th>
+					<th scope="col">Station Id</th>
+					<th scope="col">Stream Url</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{range .playbackTracker}}
+				<tr>
+					<td><time datetime="{{.StartTime.UTC}}"></time></td>
+					<td><span class="badge bg-secondary">{{.StationId}}</span></td>
+					<td><a href="{{.StreamUrl}}" class="link-primary" target="_blank">{{.StreamUrl}}</a></td>
+				</tr>
+				{{end}}
+			</tbody>
+		</table>
+	</div>
+
+	<div class="container-sm">
+		<h2>Playback history</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">Stream Url</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{range .proxyHistory}}
+				<tr>
+					<td><a href="{{.}}" class="link-primary" target="_blank">{{.}}</a></td>
+				</tr>
+				{{end}}
+			</tbody>
+		</table>
+	</div>
+
+	<script>document.querySelectorAll('time').forEach($e => {
+			const date = new Date($e.dateTime);
+			$e.innerHTML = date.toLocaleString();
+		});
+	</script>
+</body>
+
+</html>

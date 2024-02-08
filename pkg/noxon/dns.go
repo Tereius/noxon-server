@@ -7,7 +7,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const noxonDomain = "noxonserver.eu"
 const wifiradiofrontierDomain = "wifiradiofrontier.com"
 
 func getHandleNoxonserver(resolvedIp string) func(w dns.ResponseWriter, r *dns.Msg) {
@@ -55,15 +54,17 @@ func serve() {
 	}
 }
 
-func StartDnsServer(hostIp string, ntpHost string) {
+func StartDnsServer(hostIp string, ntpHost string, records []string) {
 
 	log.Infof("Starting dns server")
 	ip := net.ParseIP(hostIp)
 	if ip != nil {
-		log.Infof("Registered ip '%s' for domain '%s'", ip.String(), noxonDomain)
-		dns.DefaultServeMux.HandleFunc(noxonDomain, getHandleNoxonserver(ip.String()))
+		for _, record := range records {
+			log.Infof("Registered ip '%s' for domain '%s'", ip.String(), record)
+			dns.DefaultServeMux.HandleFunc(record, getHandleNoxonserver(ip.String()))
+		}
 	} else {
-		log.Errorf("Could not register dns entry for domain '%s': Invalid ip provided", noxonDomain)
+		log.Error("Could not register dns entry: Invalid ip provided")
 	}
 	if len(ntpHost) > 0 {
 		log.Infof("Registered ntp host '%s' for domain '%s'", ntpHost, wifiradiofrontierDomain)

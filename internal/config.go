@@ -10,15 +10,24 @@ import (
 )
 
 type DnsConfig struct {
-	Enabled bool   `json:"enabled" toml:"enabled"`
-	HostIp  string `json:"hostIp" toml:"hostIp"`
-	NtpHost string `json:"ntpHost" toml:"ntpHost"`
+	Enabled bool     `json:"enabled" toml:"enabled"`
+	HostIp  string   `json:"hostIp" toml:"hostIp"`
+	Domains []string `json:"records" toml:"records"`
+	NtpHost string   `json:"ntpHost" toml:"ntpHost"`
+}
+
+type EndpointsConfig struct {
+	Login     []string `json:"login" toml:"login"`
+	Search    []string `json:"search" toml:"search"`
+	GetPreset []string `json:"getPreset" toml:"getPreset"`
+	AddPreset []string `json:"addPreset" toml:"addPreset"`
 }
 
 type Config struct {
-	DnsConfig DnsConfig `json:"dns" toml:"dns"`
-	Whitelist []string  `json:"whitelist" toml:"whitelist"`
-	Blacklist []string  `json:"blacklist" toml:"blacklist"`
+	DnsConfig      DnsConfig       `json:"dns" toml:"dns"`
+	EndpointConfig EndpointsConfig `json:"endpoints" toml:"endpoints"`
+	Whitelist      []string        `json:"whitelist" toml:"whitelist"`
+	Blacklist      []string        `json:"blacklist" toml:"blacklist"`
 }
 
 func ParseConfig() Config {
@@ -27,7 +36,14 @@ func ParseConfig() Config {
 		DnsConfig: DnsConfig{
 			Enabled: false,
 			HostIp:  "",
+			Domains: []string{"noxonserver.eu, vtuner.com, terratec.com, my-noxon.com"},
 			NtpHost: "de.pool.ntp.org",
+		},
+		EndpointConfig: EndpointsConfig{
+			Login:     []string{"/setupapp/fs/asp/BrowseXML/loginXML.asp", "/setupapp/radio567/asp/BrowseXPA/LoginXML.asp"},
+			Search:    []string{"/setupapp/fs/asp/BrowseXML/Search.asp"},
+			GetPreset: []string{"/Favorites/GetPreset.aspx"},
+			AddPreset: []string{"/Favorites/AddPreset.aspx"},
 		},
 		Whitelist: []string{"*"},
 		Blacklist: []string{},
@@ -63,12 +79,52 @@ func ParseConfig() Config {
 		}
 	}
 
+	if len(os.Getenv("ENDPOINTS_LOGIN")) > 0 {
+		if runtime.GOOS == "windows" {
+			config.EndpointConfig.Login = strings.Split(os.Getenv("ENDPOINTS_LOGIN"), ";")
+		} else {
+			config.EndpointConfig.Login = strings.Split(os.Getenv("ENDPOINTS_LOGIN"), ":")
+		}
+	}
+
+	if len(os.Getenv("ENDPOINTS_SEARCH")) > 0 {
+		if runtime.GOOS == "windows" {
+			config.EndpointConfig.Search = strings.Split(os.Getenv("ENDPOINTS_SEARCH"), ";")
+		} else {
+			config.EndpointConfig.Search = strings.Split(os.Getenv("ENDPOINTS_SEARCH"), ":")
+		}
+	}
+
+	if len(os.Getenv("ENDPOINTS_ADD_PRESET")) > 0 {
+		if runtime.GOOS == "windows" {
+			config.EndpointConfig.AddPreset = strings.Split(os.Getenv("ENDPOINTS_ADD_PRESET"), ";")
+		} else {
+			config.EndpointConfig.AddPreset = strings.Split(os.Getenv("ENDPOINTS_ADD_PRESET"), ":")
+		}
+	}
+
+	if len(os.Getenv("ENDPOINTS_GET_PRESET")) > 0 {
+		if runtime.GOOS == "windows" {
+			config.EndpointConfig.GetPreset = strings.Split(os.Getenv("ENDPOINTS_GET_PRESET"), ";")
+		} else {
+			config.EndpointConfig.GetPreset = strings.Split(os.Getenv("ENDPOINTS_GET_PRESET"), ":")
+		}
+	}
+
 	if len(os.Getenv("DNS_ENABLED")) > 0 && strings.ToLower(os.Getenv("DNS_ENABLED")) != "false" {
 		config.DnsConfig.Enabled = true
 	}
 
 	if len(os.Getenv("DNS_HOST_IP")) > 0 {
 		config.DnsConfig.HostIp = os.Getenv("DNS_HOST_IP")
+	}
+
+	if len(os.Getenv("DNS_DOMAINS")) > 0 {
+		if runtime.GOOS == "windows" {
+			config.DnsConfig.Domains = strings.Split(os.Getenv("DNS_DOMAINS"), ";")
+		} else {
+			config.DnsConfig.Domains = strings.Split(os.Getenv("DNS_DOMAINS"), ":")
+		}
 	}
 
 	if len(os.Getenv("DNS_NTP_HOST")) > 0 {
