@@ -78,9 +78,11 @@ func (i ItemMessage) build(c *gin.Context, id string) Item {
 	return i
 }
 
+// Should only be invoked by login handler - so we can extract the login endpoint path
 func (i ItemDir) build(c *gin.Context, id string) Item {
 	i.ItemType = "Dir"
-	i.UrlDir = getBasePath(c) + normalizedLoginEndpoint + "?gofile=" + b64.URLEncoding.EncodeToString([]byte(id))
+	// UrlDir has to point to login endpoint
+	i.UrlDir = getBasePath(c) + c.FullPath() + "?gofile=" + b64.URLEncoding.EncodeToString([]byte(id))
 	return i
 }
 
@@ -269,6 +271,8 @@ func (n *NoxonServer) handleLoginEndpoint(c *gin.Context) {
 	}
 }
 
+// It seems like the device only requests stations here (not dirs)
+// Thats handy because dirs need an absolute url pointing to the login endpoint (and we don't know the devices login endpoint)
 func (n *NoxonServer) handleSearchEndpoint(c *gin.Context) {
 
 	log := log.WithField("device", extractDeviceInfo(c))
@@ -282,11 +286,16 @@ func (n *NoxonServer) handleSearchEndpoint(c *gin.Context) {
 		} else {
 			stationItem, stationItemId := n.settings.StationsModel.Data(&itemIdString, -1)
 			if len(stationItemId) > 0 {
-				ItemList := ListOfItems{
-					ItemCount: -1,
-					Items:     []Item{stationItem.build(c, itemIdString)},
+				if _, ok := stationItem.(ItemStation); ok {
+					ItemList := ListOfItems{
+						ItemCount: -1,
+						Items:     []Item{stationItem.build(c, itemIdString)},
+					}
+					writeXmlResponse(c, ItemList)
+				} else {
+					log.Errorf("The requested item is not a station (id: %s) - did the model change?", itemIdString)
+					c.AbortWithStatus(http.StatusNotFound)
 				}
-				writeXmlResponse(c, ItemList)
 			} else {
 				log.Errorf("A non existing item (id: %s) was requested", itemIdString)
 				c.AbortWithStatus(http.StatusNotFound)
@@ -480,8 +489,8 @@ func (n *NoxonServer) handleStatusEndpoint(c *gin.Context) {
 		})
 
 	sortedProxyHistory := []string{}
-	for _, p := range proxyHistory {
-		sortedProxyHistory = append(sortedProxyHistory, p)
+	for url, _ := range proxyHistory {
+		sortedProxyHistory = append(sortedProxyHistory, url)
 	}
 
 	slices.Sort(sortedProxyHistory)

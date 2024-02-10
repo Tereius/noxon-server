@@ -32,7 +32,7 @@ Compile the code for your desired [os and architecture](https://gist.github.com/
 $ GOOS=linux GOARCH=amd64 go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o noxon-server cmd/main.go
 ```
 
-Then copy the `settings.json` from the docker folder and start the application (set for `DNS_HOST_IP` the **ip (v4) of your machine**)
+Then copy the `stations.json` from the docker folder and start the application (set for `DNS_HOST_IP` the **ip (v4) of your machine**)
 
 ```bash
 $ cp docker/stations.json ./

@@ -25,7 +25,7 @@
 				<tr>
 					<td><time datetime="{{.StartTime.UTC}}"></time></td>
 					<td><span class="badge bg-secondary">{{.StationId}}</span></td>
-					<td><a href="{{.StreamUrl}}" class="link-primary" target="_blank">{{.StreamUrl}}</a></td>
+					<td><a href="{{.StreamUrl}}" class="link-primary" target="_blank" style="text-overflow: ellipsis;">{{.StreamUrl}}</a></td>
 				</tr>
 				{{end}}
 			</tbody>
@@ -43,7 +43,7 @@
 			<tbody>
 				{{range .proxyHistory}}
 				<tr>
-					<td><a href="{{.}}" class="link-primary" target="_blank">{{.}}</a></td>
+					<td><a href="{{.}}" class="link-primary" target="_blank" style="text-overflow: ellipsis;">{{.}}</a></td>
 				</tr>
 				{{end}}
 			</tbody>
