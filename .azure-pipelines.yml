@@ -48,7 +48,10 @@ jobs:
   - task: Go@0
     inputs:
       command: 'build'
-      arguments: '-a -tags netgo -ldflags "-w -extldflags "-static"" -o noxon-server${name}${suffix} cmd/main.go'
+      arguments: '-a -tags netgo -ldflags "-w -extldflags "-static"" -o noxon-server cmd/main.go'
+  - task: CmdLine@2
+    inputs:
+      script: mv "noxon-server" "noxon-server${name}${suffix}"
   - task: CopyFiles@2
     inputs:
       Contents: 'noxon-server*'
