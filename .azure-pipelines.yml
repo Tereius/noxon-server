@@ -1,5 +1,5 @@
 jobs:
-- job: build
+- job: Build
   strategy:
     matrix:
       darwin_amd64:
@@ -48,10 +48,12 @@ jobs:
   - task: Go@0
     inputs:
       command: 'get'
+      workingDirectory: $(System.DefaultWorkingDirectory)
   - task: Go@0
     inputs:
       command: 'build'
       arguments: "-a -tags netgo -ldflags '-w -extldflags \"-static\"' -o noxon-server${name}${suffix} cmd/main.go"
+      workingDirectory: $(System.DefaultWorkingDirectory)
   - task: CopyFiles@2
     inputs:
       Contents: 'noxon-server*'
