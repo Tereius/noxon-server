@@ -36,7 +36,7 @@ func ParseConfig() Config {
 		DnsConfig: DnsConfig{
 			Enabled: false,
 			HostIp:  "",
-			Domains: []string{"noxonserver.eu", "vtuner.com", "terratec.com", "my-noxon.com"},
+			Domains: []string{"noxonserver.eu", "vtuner.com"},
 			NtpHost: "de.pool.ntp.org",
 		},
 		EndpointConfig: EndpointsConfig{

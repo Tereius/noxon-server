@@ -1,4 +1,5 @@
 # noxon-server
+[![Build Status](https://dev.azure.com/bjoernstresing/bjoernstresing/_apis/build/status%2FTereius.noxon-server?branchName=master)](https://dev.azure.com/bjoernstresing/bjoernstresing/_build/latest?definitionId=26&branchName=master)
 
 Noxon<sup>TM</sup> has discontinued infrastructure services for legacy iRadio series devices. This is an unofficial server that keeps these old devices running. You finally get full control over your device and avoid e-waste.
 
@@ -65,8 +66,8 @@ The different NOXON iRadio devices may expect different endpoints and domains (p
 | config.toml key     | Env. var.            | Default                                                                                    | Meaning                                                                                                                                                                                                                                  |
 | ------------------- | -------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | dns.enabled         | DNS_ENABLED          | false                                                                                      | Enable a DNS server that redirects the radio to this server. If disabled you have to provide your own dns server that returns an A record for the [expected domains](#known-endpoints-and-domains) with the ip of the noxon-server       |
-| dns.hostIp          | DNS_HOST_IP          |                                                                                            | The ip (v4) of the noxon-server. Only required if the DNS server is enabled                                                                                                                                                                   |
-| dns.domains         | DNS_DOMAINS          | [ noxonserver.eu, vtuner.com, terratec.com, my-noxon.com ]                                 | Device [expected domains](#known-endpoints-and-domains) that will be resolved to the ip configured by `dns.hostIp`                                                                                                                                            |
+| dns.hostIp          | DNS_HOST_IP          |                                                                                            | The ip (v4) of the noxon-server. Only required if the DNS server is enabled                                                                                                                                                              |
+| dns.domains         | DNS_DOMAINS          | [ noxonserver.eu, vtuner.com ]                                                             | Device [expected domains](#known-endpoints-and-domains) that will be resolved to the ip configured by `dns.hostIp`                                                                                                                       |
 | dns.ntpHost         | DNS_NTP_HOST         | de.pool.ntp.org                                                                            | The host of a ntp server where the radio should get the time from.                                                                                                                                                                       |
 | endpoints.login     | ENDPOINTS_LOGIN      | [ /setupapp/fs/asp/BrowseXML/loginXML.asp, /setupapp/radio567/asp/BrowseXPA/LoginXML.asp ] | Device [expected login endpoints](#known-endpoints-and-domains) that get routed to this servers login endpoint                                                                                                                           |
 | endpoints.search    | ENDPOINTS_SEARCH     | [ /setupapp/fs/asp/BrowseXML/Search.asp ]                                                  | Device [expected search endpoints](#known-endpoints-and-domains) that get routed to this servers search endpoint                                                                                                                         |
@@ -155,11 +156,9 @@ Different Noxon iRadio devices expect different endpoints and domains this serve
 
 ### NOXON iRadio
 
-| Domains      |
-| ------------ |
-| vtuner.com   |
-| terratec.com |
-| my-noxon.com |
+| Domains    |
+| ---------- |
+| vtuner.com |
 
 | Endpoint  | Path                                          |
 | --------- | --------------------------------------------- |
