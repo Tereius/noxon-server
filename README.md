@@ -6,7 +6,7 @@ Noxon<sup>TM</sup> has discontinued infrastructure services for legacy iRadio se
 Thanks goes to [cweiske](https://github.com/cweiske/noxon-api) for providing the API documentation.
 
 Tested Devices (see [Server configuration](#server-configuration)):
-* NOXON iRadio
+* NOXON iRadio (without a number)
 * NOXON iRadio 300
 
 ## Quickstart (Docker)
@@ -154,7 +154,7 @@ Different Noxon iRadio devices expect different endpoints and domains this serve
 | addPreset | /Favorites/AddPreset.aspx               |
 
 
-### NOXON iRadio
+### NOXON iRadio (withouth a number)
 
 | Domains    |
 | ---------- |

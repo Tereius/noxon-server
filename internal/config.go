@@ -12,7 +12,7 @@ import (
 type DnsConfig struct {
 	Enabled bool     `json:"enabled" toml:"enabled"`
 	HostIp  string   `json:"hostIp" toml:"hostIp"`
-	Domains []string `json:"records" toml:"records"`
+	Domains []string `json:"domains" toml:"domains"`
 	NtpHost string   `json:"ntpHost" toml:"ntpHost"`
 }
 
