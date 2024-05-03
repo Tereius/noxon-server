@@ -21,13 +21,17 @@ import (
 )
 
 //go:embed *.html
-var embeddedFiles embed.FS
+var embeddedTemplates embed.FS
+
+//go:embed favicon.ico
+var embeddedStatic embed.FS
 
 const macObfuscate = "a6703ded78821be5"
 const normalizedLoginEndpoint = "/login"
 const playbackEndpoint = "/playback"
 const healthEndpoint = "/health"
 const statusEndpoint = "/status"
+const staticEndpoint = "/static"
 
 type ListOfItems struct {
 	XMLName   xml.Name `xml:"ListOfItems"`
@@ -558,8 +562,8 @@ func writeXmlResponse(c *gin.Context, xmlStruct any) {
 func (n *NoxonServer) StartAndServe() {
 
 	log.Infof("Starting noxon server")
-	templ := template.Must(template.New("").ParseFS(embeddedFiles, "*"))
-	n.engine.SetHTMLTemplate(templ)
+	n.engine.SetHTMLTemplate(template.Must(template.New("").ParseFS(embeddedTemplates, "*")))
+	n.engine.StaticFS(staticEndpoint, http.FS(embeddedStatic))
 	n.engine.Use(ginlogrus.Logger(log.WithFields(log.Fields{})))
 	n.engine.Use(gin.CustomRecoveryWithWriter(nil, n.handleRecovery))
 	n.engine.Use(n.authMiddleware)
@@ -579,5 +583,6 @@ func (n *NoxonServer) StartAndServe() {
 	n.engine.GET(playbackEndpoint, n.handlePlaybackEndpoint)
 	n.engine.GET(healthEndpoint, n.handleHealthEndpoint)
 	n.engine.GET(statusEndpoint, n.handleStatusEndpoint)
+	n.engine.GET("/favicon.ico", func(ctx *gin.Context) { ctx.Redirect(http.StatusMovedPermanently, staticEndpoint+"/favicon.ico") })
 	n.engine.Run("0.0.0.0:80")
 }

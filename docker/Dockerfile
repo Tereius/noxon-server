@@ -1,20 +1,23 @@
-FROM golang:1.21
+FROM --platform=$BUILDPLATFORM golang:1.21 as build
+
+WORKDIR /build
+COPY ./ ./
+RUN go mod download
+
+ARG UID=11009 GID=11009
+RUN echo "noxon:*:$UID:$GID::/:" > passwd && echo "noxon:*:$GID:" > group
+
+ARG TARGETOS TARGETARCH
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_ENABLED=0 go build -a -tags netgo,osusergo -trimpath -ldflags '-w -s -buildid= -extldflags "-static"' -o noxon-server cmd/main.go
+
+
+FROM scratch as run
 
 WORKDIR /noxon
-
-COPY "./" "./"
-
-RUN useradd -u 10001 noxon
-RUN GOOS="linux" && go build -a -tags netgo -ldflags '-w -extldflags "-static"' -o noxon-server cmd/main.go
-
-FROM scratch
-
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=build /build/passwd /build/group /etc/
+COPY --from=build /build/noxon-server ./
 ENV GIN_MODE=release
-WORKDIR /noxon
-COPY --from=0 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=0 /etc/passwd /etc/passwd
-COPY --from=0 /noxon/noxon-server ./
-USER noxon
-EXPOSE 80/tcp
-EXPOSE 53/udp
+USER noxon:noxon
+EXPOSE 80/tcp 53/udp
 ENTRYPOINT ["/noxon/noxon-server"]
