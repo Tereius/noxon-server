@@ -73,8 +73,16 @@ The different NOXON iRadio devices may expect different endpoints and domains (p
 | endpoints.search    | ENDPOINTS_SEARCH     | [ /setupapp/fs/asp/BrowseXML/Search.asp ]                                                  | Device [expected search endpoints](#known-endpoints-and-domains) that get routed to this servers search endpoint                                                                                                                         |
 | endpoints.getPreset | ENDPOINTS_GET_PRESET | [ /Favorites/GetPreset.aspx ]                                                              | Device [expected getPreset endpoints](#known-endpoints-and-domains) that get routed to this servers getPreset endpoint                                                                                                                   |
 | endpoints.addPreset | ENDPOINTS_ADD_PRESET | [ /Favorites/AddPreset.aspx ]                                                              | Device [expected addPreset endpoints](#known-endpoints-and-domains) that get routed to this servers addPreset endpoint                                                                                                                   |
-| Whitelist           | WHITELIST            | \*                                                                                         | A list of hashed Mac adresses that are allowed to connect to the noxon-server or a wildcard `*`. For the Env. variable the entries are separated by `;` on windows and `:` on a unix-like os. The Whitelist overrules the Blacklist      |
-| Blacklist           | BLACKLIST            |                                                                                            | A list of hashed Mac adresses that are blocked from connecting to the noxon-server or a wildcard `*`. For the Env. variable the entries are separated by `;` on windows and `:` on a unix-like os. The Whitelist overrules the Blacklist |
+| whitelist           | WHITELIST            | [\*]                                                                                       | A list of hashed Mac adresses that are allowed to connect to the noxon-server or a wildcard `*`. For the Env. variable the entries are separated by `;` on windows and `:` on a unix-like os. The Whitelist overrules the Blacklist      |
+| blacklist           | BLACKLIST            |                                                                                            | A list of hashed Mac adresses that are blocked from connecting to the noxon-server or a wildcard `*`. For the Env. variable the entries are separated by `;` on windows and `:` on a unix-like os. The Whitelist overrules the Blacklist |
+
+`config.toml` example:
+```toml
+dns.enabled = true
+dns.hostIp = "192.168.0.50"
+blacklist = ["*"]
+whiteList = ["f304f96607e7965714872c301f144bea"]
+```
 
 ## Blacklist/Whitelist
 
